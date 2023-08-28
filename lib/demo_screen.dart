@@ -40,9 +40,15 @@ class DemoScreen extends StatelessWidget {
                 label: "Redirection In-App Preview"),
             CustomizedButton(
                 onTap: () {
-                  urlRedirect("https://www.google.com");
+                  urlRedirect("https://www.flutterdirectory.com");
                 },
                 label: "Redirection"),
+
+            CustomizedButton(
+                onTap: () {
+                  launchMap();
+                },
+                label: "Redirect to Map"),
           ],
         ));
   }
@@ -61,6 +67,7 @@ class DemoScreen extends StatelessWidget {
       mode: LaunchMode.inAppWebView,
       webViewConfiguration: const WebViewConfiguration(
         enableJavaScript: true,
+        enableDomStorage: true
       ),
     );
 
@@ -103,5 +110,22 @@ class DemoScreen extends StatelessWidget {
     );
 
     await launchUrl(emailRes);
+  }
+
+  launchMap() async {
+
+    String homeLat = "37.3230";
+    String homeLng = "-122.0312";
+
+    String googleMapslocationUrl = "https://www.google.com/maps/search/?api=1&query=$homeLat,$homeLng";
+
+
+    final String encodedURl = Uri.encodeFull(googleMapslocationUrl);
+
+    final result = await launchUrl(Uri.parse(encodedURl));
+
+    if (!result) {
+      throw Exception("Error");
+    }
   }
 }
